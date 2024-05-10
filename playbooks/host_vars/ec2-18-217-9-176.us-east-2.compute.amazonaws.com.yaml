@@ -1,0 +1,6 @@
+#ubuntu
+apache_package: apache2 
+apache_service: apache2 
+mysql_package_ubuntu: mysql-server 
+php_package: php
+os_distro: Ubuntu

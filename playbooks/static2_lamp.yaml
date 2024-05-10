@@ -1,0 +1,62 @@
+---
+- name: Install/Start LAMP Service
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Apache on Linux/Ubuntu
+      package:
+        name: "{{ apache_package }}" #httpd,apache2
+        state: present
+
+    - name: Download the MySQL 5.7 Community Release RPM Linux
+      get_url:
+        url: https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm
+        dest: /tmp/mysql57-community-release-el7-11.noarch.rpm
+      when: ansible_os_family in ["RedHat", "Amazon"]
+
+    - name: Install the MySQL 5.7 Community Release RPM Linux
+      yum:
+        name: /tmp/mysql57-community-release-el7-11.noarch.rpm
+        state: present
+      when: ansible_os_family in ["RedHat", "Amazon"]
+
+    - name: Import MySQL GPG Key Linux
+      rpm_key:
+        state: present
+        key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+      when: ansible_os_family in ["RedHat", "Amazon"]
+
+    - name: Install MySQL Linux
+      package:
+        name: "{{ mysql_package }}"
+        state: present
+      when: ansible_os_family in ["RedHat", "Amazon"]
+
+    - name: Install MySQL on Ubuntu
+      apt:
+        name: "{{ mysql_package_ubuntu }}"
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install PHP on Linux/Ubuntu
+      package:
+        name: php
+        state: present
+
+    - name: Start Apache Service on Linux
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    
+    - name: Start mysql on Linux
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+      when: ansible_os_family in ["RedHat", "Amazon"]
+
+
+
+
+
