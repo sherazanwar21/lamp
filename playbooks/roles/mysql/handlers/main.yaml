@@ -1,0 +1,7 @@
+---
+- name: Start mysql on Linux
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+  when: ansible_os_family in ["RedHat", "Amazon"]

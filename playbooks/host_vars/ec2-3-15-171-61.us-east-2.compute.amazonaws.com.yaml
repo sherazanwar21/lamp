@@ -1,0 +1,8 @@
+#linux
+apache_package: httpd
+apache_service: httpd
+mysql_package: mysql-community-server 
+key: https://repo.mysql.com/RPM-GPG-KEY-mysql
+mysql_url: https://repo.mysql.com//mysql80-community-release-el7-5.noarch.rpm 
+php_package: php
+os_distro: Amazon Linux 2

@@ -1,0 +1,31 @@
+--- #mysql password VKkdlKQbO8&4  
+- name: Download the MySQL Community Release RPM Linux
+  get_url:
+    url: "{{mysql_url}}"
+    dest: /tmp/mysql57-community-release-el7-11.noarch.rpm
+  when: ansible_os_family in ["RedHat", "Amazon"]
+
+- name: Install the MySQL Community Release RPM Linux
+  yum:
+    name: /tmp/mysql57-community-release-el7-11.noarch.rpm
+    state: present
+  when: ansible_os_family in ["RedHat", "Amazon"]
+
+- name: Import MySQL GPG Key Linux
+  rpm_key:
+    state: present
+    key: "{{key}}"
+  when: ansible_os_family in ["RedHat", "Amazon"]
+
+- name: Install MySQL Linux
+  package:
+    name: "{{ mysql_package }}"
+    state: present
+  when: ansible_os_family in ["RedHat", "Amazon"]
+  notify: Start mysql on Linux
+
+- name: Install MySQL on Ubuntu
+  apt:
+    name: "{{ mysql_package_ubuntu }}"
+    state: present
+  when: ansible_os_family == "Debian"

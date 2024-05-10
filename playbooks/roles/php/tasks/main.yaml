@@ -1,0 +1,5 @@
+---
+- name: Install php
+  package:
+    name: php
+    state: present

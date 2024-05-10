@@ -3,9 +3,9 @@
   hosts: all
   become: yes
   tasks:
-    - name: Install Apache
+    - name: Install Apache on Linux/Ubuntu
       package:
-        name: "{{ apache_package }}"
+        name: "{{ apache_package }}" #httpd,apache2
         state: present
 
     - name: Download the MySQL 5.7 Community Release RPM Linux
@@ -40,12 +40,12 @@
 
     - name: Install PHP on Linux/Ubuntu
       package:
-        name: "{{ php_package }}"
+        name: php
         state: present
 
-    - name: Start Apache Service on Linux/Ubuntu
+    - name: Start Apache Service on Linux
       service:
-        name: "{{ apache_service }}"
+        name: httpd
         state: started
         enabled: yes
     
